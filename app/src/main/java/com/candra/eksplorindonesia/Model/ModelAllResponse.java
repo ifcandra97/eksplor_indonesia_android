@@ -7,7 +7,7 @@ public class ModelAllResponse
     private String kode, pesan;
     private List<ModelKuliner> dataKuliner;
     private List<ModelUser> dataUser;
-    private List<ModelWisata> dataWisata;
+    private List<ModelWisata> data;
 
     public String getKode() {
         return kode;
@@ -26,6 +26,6 @@ public class ModelAllResponse
     }
 
     public List<ModelWisata> getDataWisata() {
-        return dataWisata;
+        return data;
     }
 }

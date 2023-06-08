@@ -1,6 +1,5 @@
 package com.candra.eksplorindonesia;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -10,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +42,7 @@ public class WisataFragment extends Fragment {
     private TextView tvHasilScan;
     private ImageView ivScan;
     private RecyclerView rvWisata;
-    private RecyclerView.Adapter adWisata;
+    private AdapterWisata adWisata;
     private RecyclerView.LayoutManager lmWisata;
     private List<ModelWisata> listWisata = new ArrayList<>();
 
@@ -112,6 +112,7 @@ public class WisataFragment extends Fragment {
         // Set layout manager for rvWisata
         lmWisata = new LinearLayoutManager(getActivity());
         rvWisata.setLayoutManager(lmWisata);
+        retrieveWisata();
     }
 
     private void scanQR()
@@ -134,29 +135,28 @@ public class WisataFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        retrieveWista();
+        retrieveWisata();
     }
 
-    public void retrieveWista()
-    {
+    public void retrieveWisata() {
         APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
 
         Call<ModelAllResponse> getRetrieveWisata = ard.ardRetrieveDataWisata();
         getRetrieveWisata.enqueue(new Callback<ModelAllResponse>() {
             @Override
             public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
-                String code = response.body().getKode();
-                String message = response.body().getPesan();
+                String kode = response.body().getKode();
+                String pesan = response.body().getPesan();
                 listWisata = response.body().getDataWisata();
 
-                adWisata = new AdapterWisata(getActivity(), listWisata);
+                adWisata = new AdapterWisata(getContext(), listWisata);
                 rvWisata.setAdapter(adWisata);
                 adWisata.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<ModelAllResponse> call, Throwable t) {
-                Toast.makeText(getActivity(), "Gagal Menghubungi Server : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Gagal menghubungi server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

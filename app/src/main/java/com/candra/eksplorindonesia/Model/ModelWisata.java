@@ -1,29 +1,29 @@
 package com.candra.eksplorindonesia.Model;
 
 public class ModelWisata {
-    private String idWisata, namaWisata, lokasiWisata, mapsWisata, fotoWisata, deskripsiWisata;
+    private String id_wisata, nama_wisata, lokasi_wisata, maps_wisata, foto_wisata, deskripsi_wisata;
 
     public String getIdWisata() {
-        return idWisata;
+        return id_wisata;
     }
 
     public String getNamaWisata() {
-        return namaWisata;
+        return nama_wisata;
     }
 
     public String getLokasiWisata() {
-        return lokasiWisata;
+        return lokasi_wisata;
     }
 
     public String getMapsWisata() {
-        return mapsWisata;
+        return maps_wisata;
     }
 
     public String getFotoWisata() {
-        return fotoWisata;
+        return foto_wisata;
     }
 
     public String getDeskripsiWisata() {
-        return deskripsiWisata;
+        return deskripsi_wisata;
     }
 }
