@@ -2,25 +2,25 @@ package com.candra.eksplorindonesia.Model;
 
 public class ModelKuliner
 {
-    private String idKuliner, namaKuliner, asalKuliner, fotoKuliner, deskripsiKuliner;
+    private String id_kuliner, nama_kuliner, asal_kuliner, foto_kuliner, deskripsi_kuliner;
 
     public String getIdKuliner() {
-        return idKuliner;
+        return id_kuliner;
     }
 
     public String getNamaKuliner() {
-        return namaKuliner;
+        return nama_kuliner;
     }
 
     public String getAsalKuliner() {
-        return asalKuliner;
+        return asal_kuliner;
     }
 
     public String getFotoKuliner() {
-        return fotoKuliner;
+        return foto_kuliner;
     }
 
     public String getDeskripsiKuliner() {
-        return deskripsiKuliner;
+        return deskripsi_kuliner;
     }
 }

@@ -16,6 +16,7 @@ public class ControllerLogin
     public String keySP_role = "sp_role";
     public String keySP_phone = "sp_phone";
     public String keySP_foto = "sp_foto";
+    public String keySP_password = "sp_password";
 
     // Construktor yang menerima param context
     public ControllerLogin(Context ctx)
@@ -24,7 +25,7 @@ public class ControllerLogin
     }
 
     // Melakukan Set Preferences
-    public void setPreferences(String key, String value)
+    public void setPreferences(Context context, String key, String value)
     {
         sp = PreferenceManager.getDefaultSharedPreferences(context);
         spEditor = sp.edit();
@@ -33,16 +34,17 @@ public class ControllerLogin
     }
 
     // Melakukan Get Preferences
-    public String getPreferences(String key)
+    public String getPreferences(Context ctx, String key)
     {
-        sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sp.getString(key, null);
     }
 
     // Pengecekan apakah user login atau tidak
-    public boolean isLogin(String key)
+    public boolean isLogin(Context ctx, String key)
     {
-        String pref = getPreferences(key);
+        sp = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String pref = sp.getString(key, null);
         if(pref != null)
         {
             return true;

@@ -44,6 +44,7 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
         holder.tvLokasiWisata.setText(mw.getLokasiWisata());
         holder.tvMapsWisata.setText(mw.getMapsWisata());
         holder.tvDeskripsiWisata.setText(mw.getDeskripsiWisata());
+
 //        holder.btnDetailWisata.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -76,7 +77,15 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
             btnDetailWisata.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(new Intent(context, DetailWisataActivity.class));
+
+                    Intent intent = new Intent(context, DetailWisataActivity.class);
+                    intent.putExtra("xIdWisata", tvIdWisata.getText().toString());
+                    intent.putExtra("xNamaWisata", tvNamaWisata.getText().toString());
+                    intent.putExtra("xLokasiWisata", tvLokasiWisata.getText().toString());
+                    intent.putExtra("xMapsWisata", tvMapsWisata.getText().toString());
+                    intent.putExtra("xDeskripsiWisata", tvDeskripsiWisata.getText().toString());
+
+                    context.startActivity(intent);
                 }
             });
 

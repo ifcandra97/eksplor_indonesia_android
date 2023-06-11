@@ -102,6 +102,7 @@ public interface APIRequestData
     Call<ModelAllResponse> ardDeleteDataKuliner(
             @Field("id_kuliner") String id_kuliner
     );
+
     // Wisata
     @FormUrlEncoded
     @POST("wisata/delete_wisata.php")

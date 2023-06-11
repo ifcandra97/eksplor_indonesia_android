@@ -1,5 +1,6 @@
 package com.candra.eksplorindonesia;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -40,7 +41,7 @@ import retrofit2.Response;
 public class WisataFragment extends Fragment {
 
     private TextView tvHasilScan;
-    private ImageView ivScan;
+    private ImageView ivScan, ivAddWisata;
     private RecyclerView rvWisata;
     private AdapterWisata adWisata;
     private RecyclerView.LayoutManager lmWisata;
@@ -108,6 +109,14 @@ public class WisataFragment extends Fragment {
         });
         tvHasilScan = view.findViewById(R.id.tv_hasilscan);
         rvWisata = view.findViewById(R.id.rv_wisata); // Initialize rvWisata here
+        ivAddWisata = view.findViewById(R.id.iv_add_wisata);
+        ivAddWisata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AddWisataActivity.class));
+            }
+        });
+
 
         // Set layout manager for rvWisata
         lmWisata = new LinearLayoutManager(getActivity());

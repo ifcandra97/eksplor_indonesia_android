@@ -1,12 +1,28 @@
 package com.candra.eksplorindonesia;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.candra.eksplorindonesia.API.APIRequestData;
+import com.candra.eksplorindonesia.API.RetrofitServer;
+import com.candra.eksplorindonesia.Model.ModelAllResponse;
+import com.candra.eksplorindonesia.Utility.ControllerLogin;
+
+import retrofit2.Call;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +30,14 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class MyProfileFragment extends Fragment {
+
+    private ImageView ivEditProfile, ivFotoUser;
+
+    private TextView tvIdUser, tvNamaUser, tvEmailUser, tvRoleUser, tvNomorTeleponUser;
+    private Button btnLogOut;
+
+    private ControllerLogin cLogin = new ControllerLogin(getActivity());
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,4 +85,67 @@ public class MyProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_profile, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        ivEditProfile = view.findViewById(R.id.iv_edit_profile);
+        ivEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), EditProfileActivity.class));
+            }
+        });
+        ivFotoUser = view.findViewById(R.id.iv_foto_user);
+
+        tvIdUser = view.findViewById(R.id.tv_id_user);
+        tvNamaUser = view.findViewById(R.id.tv_nama_user);
+        tvEmailUser = view.findViewById(R.id.tv_email_user);
+        tvRoleUser = view.findViewById(R.id.tv_role_user);
+        tvNomorTeleponUser = view.findViewById(R.id.tv_nomor_telepon_user);
+
+        tvIdUser.setText(cLogin.getPreferences(getActivity(), String.valueOf(cLogin.keySP_id)));
+        tvNamaUser.setText(cLogin.getPreferences(getActivity(), cLogin.keySP_fullname));
+        tvEmailUser.setText(cLogin.getPreferences(getActivity(), cLogin.keySP_email));
+        tvRoleUser.setText(cLogin.getPreferences(getActivity(), cLogin.keySP_role));
+        tvNomorTeleponUser.setText(cLogin.getPreferences(getActivity(), cLogin.keySP_phone));
+
+        btnLogOut = view.findViewById(R.id.btn_logout);
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Logout();
+            }
+        });
+    }
+
+    private void Logout()
+    {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle("Perhatian !");
+        dialog.setMessage("Apakah anda yakin ingin Logout ?");
+        dialog.setCancelable(true);
+        dialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                cLogin.setPreferences(getActivity(), cLogin.keySP_email, null);
+                startActivity(new Intent(getActivity(), SplashScreen.class));
+                getActivity().finish();
+            }
+        });
+
+        dialog.setPositiveButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
+
 }

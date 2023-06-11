@@ -1,19 +1,36 @@
 package com.candra.eksplorindonesia;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.candra.eksplorindonesia.API.APIRequestData;
+import com.candra.eksplorindonesia.API.RetrofitServer;
+import com.candra.eksplorindonesia.Adapter.AdapterKuliner;
+import com.candra.eksplorindonesia.Adapter.AdapterWisata;
+import com.candra.eksplorindonesia.Model.ModelAllResponse;
+import com.candra.eksplorindonesia.Model.ModelKuliner;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +40,11 @@ import com.journeyapps.barcodescanner.ScanOptions;
 public class KulinerFragment extends Fragment {
 
 //    Deklarasi
-    private ImageView ivScan;
+    private RecyclerView rvKuliner;
+    private ImageView ivScan, ivAddKuliner;
+    private AdapterKuliner adKuliner;
+    private RecyclerView.LayoutManager lmKuliner;
+    private List<ModelKuliner> listKuliner = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +107,18 @@ public class KulinerFragment extends Fragment {
             }
         });
 
+        rvKuliner = view.findViewById(R.id.rv_kuliner);
+        ivAddKuliner = view.findViewById(R.id.iv_add_kuliner);
+        ivAddKuliner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AddKulinerActivity.class));
+            }
+        });
+
+        lmKuliner = new LinearLayoutManager(getActivity());
+        rvKuliner.setLayoutManager(lmKuliner);
+        retrieveKuliner();
     }
 
     private void scanQR()
@@ -104,4 +137,34 @@ public class KulinerFragment extends Fragment {
 //            tvHasilScan.setText(result.getContents());
         }
     });
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrieveKuliner();
+    }
+
+    private void retrieveKuliner()
+    {
+        APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
+
+        Call<ModelAllResponse> getRetrieveKuliner = ard.ardRetrieveDataKuliner();
+        getRetrieveKuliner.enqueue(new Callback<ModelAllResponse>() {
+            @Override
+            public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
+                String kode = response.body().getKode();
+                String pesan = response.body().getPesan();
+                listKuliner = response.body().getDataKuliner();
+
+                adKuliner = new AdapterKuliner(getContext(), listKuliner);
+                rvKuliner.setAdapter(adKuliner);
+                adKuliner.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<ModelAllResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Gagal menghubungi server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

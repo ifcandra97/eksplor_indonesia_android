@@ -2,10 +2,10 @@ package com.candra.eksplorindonesia.Model;
 
 public class ModelUser
 {
-    private String idUser, fullname, email, role, phone, foto, password;
+    private String id_user, fullname, email, role, phone, foto, password;
 
     public String getIdUser() {
-        return idUser;
+        return id_user;
     }
 
     public String getFullname() {
