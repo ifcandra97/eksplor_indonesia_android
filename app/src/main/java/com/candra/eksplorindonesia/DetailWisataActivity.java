@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.candra.eksplorindonesia.API.APIRequestData;
 import com.candra.eksplorindonesia.API.RetrofitServer;
+import com.candra.eksplorindonesia.Adapter.AdapterWisata;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
 
 import retrofit2.Call;
@@ -23,13 +26,14 @@ import retrofit2.Response;
 
 public class DetailWisataActivity extends AppCompatActivity {
 
-    private String yIdWisata, yNamaWisata, yLokasiWisata, yMapsWisata, yDeskripsiWisata;
+    private String yIdWisata, yNamaWisata, yLokasiWisata, yMapsWisata, yDeskripsiWisata, yFotoWisata;
 
     private TextView tvIdWisata, tvNamaWisata, tvLokasiWisata, tvDeskripsiWisata, tvMapsWisata;
 
     private Button btnEditWisata, btnDeleteWisata;
+    private ImageView ivDetailFotoWisata;
 
-    ImageView ivBackToWisata;
+   private ImageView ivBackToWisata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +46,28 @@ public class DetailWisataActivity extends AppCompatActivity {
         yLokasiWisata = i.getStringExtra("xLokasiWisata");
         yMapsWisata = i.getStringExtra("xMapsWisata");
         yDeskripsiWisata = i.getStringExtra("xDeskripsiWisata");
+        yFotoWisata = ShareData.foto_wisata;
 
         tvIdWisata = findViewById(R.id.tv_id_wisata_detail);
         tvNamaWisata = findViewById(R.id.tv_nama_wisata_detail);
         tvLokasiWisata = findViewById(R.id.tv_lokasi_wisata_detail);
         tvMapsWisata = findViewById(R.id.tv_maps_wisata_detail);
         tvDeskripsiWisata = findViewById(R.id.tv_deskripsi_wisata_detail);
+        ivDetailFotoWisata = findViewById(R.id.iv_wisata);
 
         tvIdWisata.setText(yIdWisata);
         tvNamaWisata.setText(yNamaWisata);
         tvLokasiWisata.setText(yLokasiWisata);
         tvMapsWisata.setText(yMapsWisata);
         tvDeskripsiWisata.setText(yDeskripsiWisata);
+
+        byte[] imageBytes = Base64.decode(yFotoWisata, Base64.DEFAULT);
+
+        Glide.with(DetailWisataActivity.this)
+                .asBitmap()
+                .load(imageBytes)
+                .into(ivDetailFotoWisata);
+
 
         btnEditWisata = findViewById(R.id.btn_edit_wisata);
         btnEditWisata.setOnClickListener(new View.OnClickListener() {

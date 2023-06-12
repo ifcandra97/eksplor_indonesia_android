@@ -1,12 +1,19 @@
 package com.candra.eksplorindonesia;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.candra.eksplorindonesia.Utility.ControllerLogin;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +21,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+
+    private ImageView ivToAbout;
+    private TextView tvNamaUserHome;
+
+    private ControllerLogin cLogin = new ControllerLogin(getActivity());
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +72,20 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ivToAbout = view.findViewById(R.id.iv_to_about);
+        ivToAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AboutActivity.class));
+            }
+        });
+
+        tvNamaUserHome = view.findViewById(R.id.tv_nama_user_home);
+        tvNamaUserHome.setText(cLogin.getPreferences(getActivity(), cLogin.keySP_fullname));
     }
 }

@@ -2,11 +2,15 @@ package com.candra.eksplorindonesia.API;
 
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface APIRequestData
 {
@@ -24,24 +28,24 @@ public interface APIRequestData
 
     // Create ALl Data
     // User
-    @FormUrlEncoded
+    @Multipart
     @POST("user/create_user.php")
     Call<ModelAllResponse> ardCreateDataUser(
-            @Field("fullname") String fullname,
-            @Field("email") String email,
-            @Field("role") String role,
-            @Field("phone") String phone,
-            @Field("foto") String foto,
-            @Field("password") String password
+            @Part("fullname") RequestBody fullname,
+            @Part("email") RequestBody email,
+            @Part("role") RequestBody role,
+            @Part("phone") RequestBody phone,
+            @Part MultipartBody.Part foto,
+            @Part("password") RequestBody password
     );
     // Kuliner
-    @FormUrlEncoded
+    @Multipart
     @POST("kuliner/create_kuliner.php")
     Call<ModelAllResponse> ardCreateDataKuliner(
-            @Field("nama_kuliner") String nama_kuliner,
-            @Field("asal_kuliner") String asal_kuliner,
-            @Field("foto_kuliner") String foto_kuliner,
-            @Field("deskripsi_kuliner") String deskripsi_kuliner
+            @Part("nama_kuliner") RequestBody nama_kuliner,
+            @Part("asal_kuliner") RequestBody asal_kuliner,
+            @Part("foto_kuliner") MultipartBody.Part foto_kuliner,
+            @Part("deskripsi_kuliner") RequestBody deskripsi_kuliner
     );
     // Wisata
     @FormUrlEncoded

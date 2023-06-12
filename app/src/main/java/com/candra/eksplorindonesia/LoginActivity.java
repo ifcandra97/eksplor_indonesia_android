@@ -95,6 +95,7 @@ public class LoginActivity extends AppCompatActivity
 
                 listUser = response.body().getDataUser();
 
+
                 if(kode.equals("0"))
                 {
                     Toast.makeText(LoginActivity.this, "Login Gagal !, Email atau Password Salah !", Toast.LENGTH_SHORT).show();
@@ -117,6 +118,7 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<ModelAllResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Error ! " + t.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }

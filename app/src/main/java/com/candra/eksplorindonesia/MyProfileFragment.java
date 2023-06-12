@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.candra.eksplorindonesia.API.APIRequestData;
 import com.candra.eksplorindonesia.API.RetrofitServer;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
@@ -99,6 +101,13 @@ public class MyProfileFragment extends Fragment {
             }
         });
         ivFotoUser = view.findViewById(R.id.iv_foto_user);
+        String base64Image = cLogin.getPreferences(getActivity(), cLogin.keySP_foto);
+        byte[] imageBytes = Base64.decode(base64Image, Base64.DEFAULT);
+
+        Glide.with(getActivity())
+                .asBitmap()
+                .load(imageBytes)
+                .into(ivFotoUser);
 
         tvIdUser = view.findViewById(R.id.tv_id_user);
         tvNamaUser = view.findViewById(R.id.tv_nama_user);

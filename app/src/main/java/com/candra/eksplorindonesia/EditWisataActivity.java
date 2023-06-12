@@ -29,7 +29,7 @@ public class EditWisataActivity extends AppCompatActivity {
 
     private TextView tvIdEditWisata;
 
-    private String tempIdWisata, tempNamaWisata, tempLokasiWisata, tempMapsWisata, tempDeskripsiWisata;
+    private String tempIdWisata, tempNamaWisata, tempLokasiWisata, tempMapsWisata, tempDeskripsiWisata, tempFotoWisata;
 
     private Button btnEditWisata;
 
@@ -44,6 +44,8 @@ public class EditWisataActivity extends AppCompatActivity {
         tempLokasiWisata = intent.getStringExtra("varLokasiWisata");
         tempMapsWisata = intent.getStringExtra("varMapsWisata");
         tempDeskripsiWisata = intent.getStringExtra("varDeskripsiWisata");
+        tempFotoWisata = ShareData.foto_wisata;
+
 
         etNamaWisata = findViewById(R.id.et_nama_wisata);
         etLokasiWisata = findViewById(R.id.et_lokasi_wisata);
@@ -117,7 +119,6 @@ public class EditWisataActivity extends AppCompatActivity {
                 Toast.makeText(EditWisataActivity.this, "Data Wisata Berhasil di Update", Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(EditWisataActivity.this, DetailWisataActivity.class);
-
                 i.putExtra("xIdWisata", tempIdWisata);
                 i.putExtra("xNamaWisata", etNamaWisata.getText().toString());
                 i.putExtra("xLokasiWisata", etLokasiWisata.getText().toString());

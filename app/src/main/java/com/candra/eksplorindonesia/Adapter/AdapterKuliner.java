@@ -2,16 +2,21 @@ package com.candra.eksplorindonesia.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.candra.eksplorindonesia.DetailKulinerActivity;
 import com.candra.eksplorindonesia.DetailWisataActivity;
 import com.candra.eksplorindonesia.Model.ModelKuliner;
@@ -43,6 +48,15 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
         holder.tvNamaKuliner.setText(mk.getNamaKuliner());
         holder.tvAsalKuliner.setText(mk.getAsalKuliner());
         holder.tvDeskripsiKuliner.setText(mk.getDeskripsiKuliner());
+
+
+        String base64Image = mk.getFotoKuliner();
+        byte[] imageBytes = Base64.decode(base64Image, Base64.DEFAULT);
+
+        Glide.with(context)
+                .asBitmap()
+                .load(imageBytes)
+                .into(holder.ivFotoKuliner);
     }
 
     @Override
@@ -54,6 +68,7 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
     public class VHKuliner extends RecyclerView.ViewHolder
     {
         TextView tvIdKuliner, tvNamaKuliner, tvAsalKuliner, tvDeskripsiKuliner;
+        ImageView ivFotoKuliner;
         Button btnDetailKuliner;
         public VHKuliner(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +77,7 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
             tvNamaKuliner = itemView.findViewById(R.id.tv_nama_kuliner);
             tvAsalKuliner = itemView.findViewById(R.id.tv_asal_kuliner);
             tvDeskripsiKuliner = itemView.findViewById(R.id.tv_deskripsi_kuliner);
+            ivFotoKuliner = itemView.findViewById(R.id.iv_foto_kuliner);
 
             btnDetailKuliner = itemView.findViewById(R.id.btn_detail_kuliner);
             btnDetailKuliner.setOnClickListener(new View.OnClickListener() {
