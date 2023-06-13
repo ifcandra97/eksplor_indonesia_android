@@ -1,12 +1,17 @@
 package com.candra.eksplorindonesia;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,24 +19,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.candra.eksplorindonesia.API.APIRequestData;
 import com.candra.eksplorindonesia.API.RetrofitServer;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditWisataActivity extends AppCompatActivity {
 
-    private ImageView ivBackToDetailWisata;
+    private static final int REQUEST_IMAGE_PICK = 1;
+    private ImageView ivBackToDetailWisata, ivEditFotoWisata;
     private EditText etNamaWisata, etLokasiWisata, etMapsWisata, etDeskripsiWisata;
 
     private TextView tvIdEditWisata;
-
     private String tempIdWisata, tempNamaWisata, tempLokasiWisata, tempMapsWisata, tempDeskripsiWisata, tempFotoWisata;
-
     private Button btnEditWisata;
+    private Uri selectedImageUri;
+    private boolean gantiFotoWisata = false;
+
+    private ShareData sd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +58,8 @@ public class EditWisataActivity extends AppCompatActivity {
         tempNamaWisata = intent.getStringExtra("varNamaWisata");
         tempLokasiWisata = intent.getStringExtra("varLokasiWisata");
         tempMapsWisata = intent.getStringExtra("varMapsWisata");
+        tempFotoWisata = intent.getStringExtra("varFotoWisata");
         tempDeskripsiWisata = intent.getStringExtra("varDeskripsiWisata");
-        tempFotoWisata = ShareData.foto_wisata;
-
 
         etNamaWisata = findViewById(R.id.et_nama_wisata);
         etLokasiWisata = findViewById(R.id.et_lokasi_wisata);
@@ -59,12 +73,36 @@ public class EditWisataActivity extends AppCompatActivity {
         etMapsWisata.setText(tempMapsWisata);
         etDeskripsiWisata.setText(tempDeskripsiWisata);
 
+        ivEditFotoWisata = findViewById(R.id.iv_edit_foto_wisata);
+
+        byte [] image = Base64.decode(tempFotoWisata, Base64.DEFAULT);
+
+        Glide.with(EditWisataActivity.this)
+                .asBitmap()
+                .load(image)
+                .into(ivEditFotoWisata);
+
+        ivEditFotoWisata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_IMAGE_PICK);
+                gantiFotoWisata = true;
+            }
+        });
+
         ivBackToDetailWisata = findViewById(R.id.iv_back_to_detail_wisata);
         ivBackToDetailWisata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(EditWisataActivity.this, DetailWisataActivity.class));
-//                onBackPressed();
+                Intent x = new Intent(EditWisataActivity.this, DetailWisataActivity.class);
+                x.putExtra("xIdWisata", tempIdWisata);
+                x.putExtra("xNamaWisata", tempNamaWisata);
+                x.putExtra("xLokasiWisata", tempLokasiWisata);
+                x.putExtra("xMapsWisata", tempMapsWisata);
+                x.putExtra("xFotoWisata", tempFotoWisata);
+                x.putExtra("xDeskripsiWisata", tempDeskripsiWisata);
+                startActivity(x);
                 finish();
             }
         });
@@ -109,32 +147,109 @@ public class EditWisataActivity extends AppCompatActivity {
     {
         String idWisata = tempIdWisata;
         APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
-        Call<ModelAllResponse> edit = ard.ardUpdateDataWisata(tempIdWisata, etNamaWisata.getText().toString(),etLokasiWisata.getText().toString(), etMapsWisata.getText().toString(), "edittext", etDeskripsiWisata.getText().toString());
-        edit.enqueue(new Callback<ModelAllResponse>() {
-            @Override
-            public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
-                String code = response.body().getKode();
-                String message = response.body().getPesan();
+        if(gantiFotoWisata == true)
+        {
+            try
+            {
+                Call<ModelAllResponse> edit;
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte [] imageBytes = baos.toByteArray();
 
-                Toast.makeText(EditWisataActivity.this, "Data Wisata Berhasil di Update", Toast.LENGTH_SHORT).show();
+                RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
 
-                Intent i = new Intent(EditWisataActivity.this, DetailWisataActivity.class);
-                i.putExtra("xIdWisata", tempIdWisata);
-                i.putExtra("xNamaWisata", etNamaWisata.getText().toString());
-                i.putExtra("xLokasiWisata", etLokasiWisata.getText().toString());
-                i.putExtra("xMapsWisata", etMapsWisata.getText().toString());
-                i.putExtra("xDeskripsiWisata", etDeskripsiWisata.getText().toString());
-                startActivity(i);
-                finish();
+                edit = ard.ardUpdateDataWisata(
+                        RequestBody.create(MediaType.parse("text/plain"), idWisata),
+                        RequestBody.create(MediaType.parse("text/plain"), etNamaWisata.getText().toString()),
+                        RequestBody.create(MediaType.parse("text/plain"), etLokasiWisata.getText().toString()),
+                        RequestBody.create(MediaType.parse("text/plain"), etMapsWisata.getText().toString()),
+                        MultipartBody.Part.createFormData("foto_wisata", "image.jpg", requestBody),
+                        RequestBody.create(MediaType.parse("text/plain"), etDeskripsiWisata.getText().toString())
+                );
+
+                edit.enqueue(new Callback<ModelAllResponse>() {
+                    @Override
+                    public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
+                        String code = response.body().getKode();
+                        String message = response.body().getPesan();
+
+                        Toast.makeText(EditWisataActivity.this, "Data Wisata Berhasil di Update", Toast.LENGTH_SHORT).show();
+
+                        Intent i = new Intent(EditWisataActivity.this, DetailWisataActivity.class);
+                        i.putExtra("xIdWisata", tempIdWisata);
+                        i.putExtra("xNamaWisata", etNamaWisata.getText().toString());
+                        i.putExtra("xLokasiWisata", etLokasiWisata.getText().toString());
+                        i.putExtra("xMapsWisata", etMapsWisata.getText().toString());
+                        i.putExtra("xFotoWisata", Base64.encodeToString(imageBytes, Base64.DEFAULT));
+                        i.putExtra("xDeskripsiWisata", etDeskripsiWisata.getText().toString());
+                        startActivity(i);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ModelAllResponse> call, Throwable t) {
+                        Toast.makeText(EditWisataActivity.this, "Proses Update data Wisata Gagal !", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(EditWisataActivity.this, "Gagal mengunggah gambar!", Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onFailure(Call<ModelAllResponse> call, Throwable t) {
+        }
+        else
+        {
+            Call <ModelAllResponse> updateUserTanpaFoto = ard.ardUpdateDataWisataTanpaFoto(
+                    RequestBody.create(MediaType.parse("text/plain"), idWisata),
+                    RequestBody.create(MediaType.parse("text/plain"), etNamaWisata.getText().toString()),
+                    RequestBody.create(MediaType.parse("text/plain"), etLokasiWisata.getText().toString()),
+                    RequestBody.create(MediaType.parse("text/plain"), etMapsWisata.getText().toString()),
+                    RequestBody.create(MediaType.parse("text/plain"), etDeskripsiWisata.getText().toString())
+            );
 
-                Toast.makeText(EditWisataActivity.this, "Data Gagal di Update : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            updateUserTanpaFoto.enqueue(new Callback<ModelAllResponse>() {
+                @Override
+                public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
+                    String code = response.body().getKode();
+                    String message = response.body().getPesan();
 
-            }
-        });
+                    Toast.makeText(EditWisataActivity.this, "Data Wisata Berhasil di Update", Toast.LENGTH_SHORT).show();
+
+                    Intent i = new Intent(EditWisataActivity.this, DetailWisataActivity.class);
+                    i.putExtra("xIdWisata", tempIdWisata);
+                    i.putExtra("xNamaWisata", etNamaWisata.getText().toString());
+                    i.putExtra("xLokasiWisata", etLokasiWisata.getText().toString());
+                    i.putExtra("xMapsWisata", etMapsWisata.getText().toString());
+                    i.putExtra("xFotoWisata", tempFotoWisata);
+                    i.putExtra("xDeskripsiWisata", etDeskripsiWisata.getText().toString());
+                    startActivity(i);
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Call<ModelAllResponse> call, Throwable t) {
+                    Toast.makeText(EditWisataActivity.this, "Proses Update data Wisata Gagal !", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+
+
+
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
+            if (data != null) {
+                selectedImageUri = data.getData();
+                ivEditFotoWisata.setImageURI(selectedImageUri);
+            }
+        }
+    }
 }

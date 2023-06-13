@@ -49,7 +49,6 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
         holder.tvAsalKuliner.setText(mk.getAsalKuliner());
         holder.tvDeskripsiKuliner.setText(mk.getDeskripsiKuliner());
 
-
         String base64Image = mk.getFotoKuliner();
         byte[] imageBytes = Base64.decode(base64Image, Base64.DEFAULT);
 

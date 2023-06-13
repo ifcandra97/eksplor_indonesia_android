@@ -1,9 +1,13 @@
 package com.candra.eksplorindonesia;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,11 +18,19 @@ import com.candra.eksplorindonesia.API.APIRequestData;
 import com.candra.eksplorindonesia.API.RetrofitServer;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddWisataActivity extends AppCompatActivity {
+
+    private static final int REQUEST_IMAGE_PICK = 1;
 
     private ImageView ivBackToWisata, ivAddFotoWisata;
 
@@ -27,6 +39,8 @@ public class AddWisataActivity extends AppCompatActivity {
     private Button btnTambahWisata;
 
     String namaWisata, lokasiWisata, mapsWisata, deskripsiWisata;
+
+    private Uri selectedImageUri;
 
 
     @Override
@@ -43,6 +57,13 @@ public class AddWisataActivity extends AppCompatActivity {
         });
 
         ivAddFotoWisata = findViewById(R.id.iv_add_foto_wisata);
+        ivAddFotoWisata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_IMAGE_PICK);
+            }
+        });
 
         etAddNamaWisata = findViewById(R.id.et_add_nama_wisata);
         etAddLokasiWisata = findViewById(R.id.et_add_lokasi_wisata);
@@ -55,8 +76,8 @@ public class AddWisataActivity extends AppCompatActivity {
             public void onClick(View view) {
                 namaWisata = etAddNamaWisata.getText().toString();
                 lokasiWisata = etAddLokasiWisata.getText().toString();
-                deskripsiWisata = etDeskripsiWisata.getText().toString();
                 mapsWisata = etAddMapsWisata.getText().toString();
+                deskripsiWisata = etDeskripsiWisata.getText().toString();
 
                 if(namaWisata.trim().equals(""))
                 {
@@ -84,33 +105,67 @@ public class AddWisataActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
     }
 
     private void AddWisata()
     {
-        APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
-        Call<ModelAllResponse> prosesAdd = ard.ardCreateDataWisata(namaWisata, lokasiWisata, mapsWisata,"foto", deskripsiWisata);
+        if(selectedImageUri != null)
+        {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);
+                APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
+                Call<ModelAllResponse> prosesAdd = ard.ardCreateDataWisata(
+                        RequestBody.create(MediaType.parse("text/plain"), namaWisata),
+                        RequestBody.create(MediaType.parse("text/plain"), lokasiWisata),
+                        RequestBody.create(MediaType.parse("text/plain"), mapsWisata),
+                        MultipartBody.Part.createFormData("foto_wisata", "image.jpg", requestBody),
+                        RequestBody.create(MediaType.parse("text/plain"), deskripsiWisata)
+                );
 
-        prosesAdd.enqueue(new Callback<ModelAllResponse>() {
-            @Override
-            public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
-                String kode = response.body().getKode();
-                String pesan  = response.body().getPesan();
+                prosesAdd.enqueue(new Callback<ModelAllResponse>() {
+                    @Override
+                    public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
+                        if(response.isSuccessful())
+                        {
+                            String kode = response.body().getKode();
+                            String pesan  = response.body().getPesan();
 
-                Toast.makeText(AddWisataActivity.this, "Data Wisata Berhasil disimpan !", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(AddWisataActivity.this, DetailWisataActivity.class));
-                finish();
+                            Toast.makeText(AddWisataActivity.this, "Data Wisata Berhasil disimpan !", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(AddWisataActivity.this, "Proses tambah data wisata gagal!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ModelAllResponse> call, Throwable t) {
+                        Toast.makeText(AddWisataActivity.this, "Proses tambah data wisata gagal! " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-
-            @Override
-            public void onFailure(Call<ModelAllResponse> call, Throwable t) {
-
+            catch (IOException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(AddWisataActivity.this, "Gagal mengunggah gambar!", Toast.LENGTH_SHORT).show();
             }
-        });
-
+        }
+        else {
+            Toast.makeText(AddWisataActivity.this, "Pilih gambar terlebih dahulu!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
+            if (data != null) {
+                selectedImageUri = data.getData();
+                ivAddFotoWisata.setImageURI(selectedImageUri);
+            }
+        }
     }
 }

@@ -38,59 +38,90 @@ public interface APIRequestData
             @Part MultipartBody.Part foto,
             @Part("password") RequestBody password
     );
+
     // Kuliner
     @Multipart
     @POST("kuliner/create_kuliner.php")
     Call<ModelAllResponse> ardCreateDataKuliner(
             @Part("nama_kuliner") RequestBody nama_kuliner,
             @Part("asal_kuliner") RequestBody asal_kuliner,
-            @Part("foto_kuliner") MultipartBody.Part foto_kuliner,
+            @Part MultipartBody.Part foto_kuliner,
             @Part("deskripsi_kuliner") RequestBody deskripsi_kuliner
     );
     // Wisata
-    @FormUrlEncoded
+    @Multipart
     @POST("wisata/create_wisata.php")
     Call<ModelAllResponse> ardCreateDataWisata(
-            @Field("nama_wisata") String nama_wisata,
-            @Field("lokasi_wisata") String lokasi_wisata,
-            @Field("maps_wisata") String maps_wisata,
-            @Field("foto_wisata") String foto_wisata,
-            @Field("deskripsi_wisata") String deskripsi_wisata
+            @Part("nama_wisata") RequestBody nama_wisata,
+            @Part("lokasi_wisata") RequestBody lokasi_wisata,
+            @Part("maps_wisata") RequestBody maps_wisata,
+            @Part MultipartBody.Part foto_wisata,
+            @Part("deskripsi_wisata") RequestBody deskripsi_wisata
     );
 
 
     // Update All Data
-    @FormUrlEncoded
+    @Multipart
     @POST("user/update_user.php")
     Call<ModelAllResponse> ardUpdateDataUser(
-            @Field("id_user") String id_user,
-            @Field("fullname") String fulname,
-            @Field("email") String email,
-            @Field("role") String role,
-            @Field("phone") String phone,
-            @Field("foto") String foto,
-            @Field("password") String password
+            @Part("id_user") RequestBody id_user,
+            @Part("fullname") RequestBody fulname,
+            @Part("email") RequestBody email,
+            @Part("role") RequestBody role,
+            @Part("phone") RequestBody phone,
+            @Part MultipartBody.Part foto,
+            @Part("password") RequestBody password
     );
 
-    @FormUrlEncoded
+    @Multipart
+    @POST("user/update_tanpa_foto_user.php")
+    Call<ModelAllResponse> ardUpdateDataUserTanpaFoto(
+            @Part("id_user") RequestBody id_user,
+            @Part("fullname") RequestBody fulname,
+            @Part("email") RequestBody email,
+            @Part("role") RequestBody role,
+            @Part("phone") RequestBody phone,
+            @Part("password") RequestBody password
+    );
+
+    @Multipart
     @POST("kuliner/update_kuliner.php")
     Call<ModelAllResponse> ardUpdateDataKuliner(
-            @Field("id_kuliner") String id_kuliner,
-            @Field("nama_kuliner") String nama_kuliner,
-            @Field("asal_kuliner") String asal_kuliner,
-            @Field("foto_kuliner") String foto_kuliner,
-            @Field("deskripsi_kuliner") String deskripsi_kuliner
+            @Part("id_kuliner") RequestBody id_kuliner,
+            @Part("nama_kuliner") RequestBody nama_kuliner,
+            @Part("asal_kuliner") RequestBody asal_kuliner,
+            @Part MultipartBody.Part foto_kuliner,
+            @Part("deskripsi_kuliner") RequestBody deskripsi_kuliner
     );
 
-    @FormUrlEncoded
+    @Multipart
+    @POST("kuliner/update_tanpa_foto_kuliner.php")
+    Call<ModelAllResponse> ardUpdateDataKulinerTanpaFoto(
+            @Part("id_kuliner") RequestBody id_kuliner,
+            @Part("nama_kuliner") RequestBody nama_kuliner,
+            @Part("asal_kuliner") RequestBody asal_kuliner,
+            @Part("deskripsi_kuliner") RequestBody deskripsi_kuliner
+    );
+
+    @Multipart
     @POST("wisata/update_wisata.php")
     Call<ModelAllResponse> ardUpdateDataWisata(
-            @Field("id_wisata") String id_wisata,
-            @Field("nama_wisata") String nama_wisata,
-            @Field("lokasi_wisata") String lokasi_wisata,
-            @Field("maps_wisata") String maps_wisata,
-            @Field("foto_wisata") String foto_wisata,
-            @Field("deskripsi_wisata") String deskripsi_wisata
+            @Part("id_wisata") RequestBody id_wisata,
+            @Part("nama_wisata") RequestBody nama_wisata,
+            @Part("lokasi_wisata") RequestBody lokasi_wisata,
+            @Part("maps_wisata") RequestBody maps_wisata,
+            @Part MultipartBody.Part foto_wisata,
+            @Part("deskripsi_wisata") RequestBody deskripsi_wisata
+    );
+
+    @Multipart
+    @POST("wisata/update_tanpa_foto_wisata.php")
+    Call<ModelAllResponse> ardUpdateDataWisataTanpaFoto(
+            @Part("id_wisata") RequestBody id_wisata,
+            @Part("nama_wisata") RequestBody nama_wisata,
+            @Part("lokasi_wisata") RequestBody lokasi_wisata,
+            @Part("maps_wisata") RequestBody maps_wisata,
+            @Part("deskripsi_wisata") RequestBody deskripsi_wisata
     );
 
     // Delete All Data

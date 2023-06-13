@@ -41,12 +41,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/about"
         android:fontFamily="@font/quicksand_semibold"
-        android:justificationMode="inter_word"
         android:textColor="@color/black"
         android:layout_marginHorizontal="10dp"
-        />
+        android:textAlignment="textStart"
+        android:text="@string/hello"
+        android:justificationMode="inter_word" />
 
 
     <TextView
@@ -74,6 +74,7 @@
             android:orientation="vertical"
             >
             <ImageView
+                android:id="@+id/ivPakFarisi"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
@@ -98,6 +99,7 @@
             android:orientation="vertical"
             >
             <ImageView
+                android:id="@+id/ivCandra"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"

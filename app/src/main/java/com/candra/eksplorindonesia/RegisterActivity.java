@@ -97,7 +97,14 @@ public class RegisterActivity extends AppCompatActivity {
                     etKonfirmasiPassword.setError("Konfirmasi password tidak boleh kosong!");
                     etKonfirmasiPassword.requestFocus();
                 } else {
-                    Register();
+                    if(password.length() <= 5)
+                    {
+                        Toast.makeText(RegisterActivity.this, "Password tidak boleh kurang dari 5 digit !", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Register();
+                    }
                 }
             }
         });

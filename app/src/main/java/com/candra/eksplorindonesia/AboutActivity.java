@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 public class AboutActivity extends AppCompatActivity
 {
 
     private ImageView ivBackToHome;
+
+    private ImageView ivPakFarisi, ivCandra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,5 +28,15 @@ public class AboutActivity extends AppCompatActivity
                 onBackPressed();
             }
         });
+
+        ivPakFarisi = findViewById(R.id.ivPakFarisi);
+        ivCandra = findViewById(R.id.ivCandra);
+        Glide.with(this)
+                .load(R.drawable.pak_farisi)
+                .into(ivPakFarisi);
+
+        Glide.with(this)
+                .load(R.drawable.candra)
+                .into(ivCandra);
     }
 }

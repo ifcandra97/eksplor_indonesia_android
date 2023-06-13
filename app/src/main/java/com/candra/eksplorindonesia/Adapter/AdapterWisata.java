@@ -1,5 +1,6 @@
 package com.candra.eksplorindonesia.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Base64;
@@ -29,10 +30,7 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
 
     private ShareData sd;
 
-    String imageWisata;
-
-
-
+    private ModelWisata mw;
     public AdapterWisata(Context context, List<ModelWisata> listWisata) {
         this.context = context;
         this.listWisata = listWisata;
@@ -46,8 +44,8 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VHWisata holder, int position) {
-        ModelWisata mw = listWisata.get(position);
+    public void onBindViewHolder(@NonNull VHWisata holder, @SuppressLint("RecyclerView") int position) {
+        mw = listWisata.get(position);
 
         holder.tvIdWisata.setText(mw.getIdWisata());
         holder.tvNamaWisata.setText(mw.getNamaWisata());
@@ -55,13 +53,30 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
         holder.tvMapsWisata.setText(mw.getMapsWisata());
         holder.tvDeskripsiWisata.setText(mw.getDeskripsiWisata());
 
-        imageWisata = mw.getFotoWisata();
+        String imageWisata = mw.getFotoWisata();
         byte[] imageBytes = Base64.decode(imageWisata, Base64.DEFAULT);
 
         Glide.with(context)
                 .asBitmap()
                 .load(imageBytes)
                 .into(holder.ivFotoWisata);
+
+        holder.btnDetailWisata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ModelWisata clickedWisata = listWisata.get(position);
+                Intent intent = new Intent(context, DetailWisataActivity.class);
+                intent.putExtra("xIdWisata", clickedWisata.getIdWisata());
+                intent.putExtra("xNamaWisata", clickedWisata.getNamaWisata());
+                intent.putExtra("xLokasiWisata", clickedWisata.getLokasiWisata());
+                intent.putExtra("xMapsWisata", clickedWisata.getMapsWisata());
+                intent.putExtra("xDeskripsiWisata", clickedWisata.getDeskripsiWisata());
+                intent.putExtra("xFotoWisata", clickedWisata.getFotoWisata());
+                context.startActivity(intent);
+            }
+        });
+
+
 
     }
 
@@ -87,22 +102,7 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
             tvMapsWisata = itemView.findViewById(R.id.tv_maps_wisata);
             tvDeskripsiWisata = itemView.findViewById(R.id.tv_deskripsi_wisata);
             ivFotoWisata = itemView.findViewById(R.id.iv_foto_wisata);
-
-
             btnDetailWisata = itemView.findViewById(R.id.btn_detail_wisata);
-            btnDetailWisata.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, DetailWisataActivity.class);
-                    intent.putExtra("xIdWisata", tvIdWisata.getText().toString());
-                    intent.putExtra("xNamaWisata", tvNamaWisata.getText().toString());
-                    intent.putExtra("xLokasiWisata", tvLokasiWisata.getText().toString());
-                    intent.putExtra("xMapsWisata", tvMapsWisata.getText().toString());
-                    intent.putExtra("xDeskripsiWisata", tvDeskripsiWisata.getText().toString());
-                    ShareData.foto_wisata = imageWisata;
-                    context.startActivity(intent);
-                }
-            });
 
 
         }

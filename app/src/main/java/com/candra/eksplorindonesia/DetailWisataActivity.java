@@ -35,6 +35,8 @@ public class DetailWisataActivity extends AppCompatActivity {
 
    private ImageView ivBackToWisata;
 
+   private ShareData sd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +47,8 @@ public class DetailWisataActivity extends AppCompatActivity {
         yNamaWisata = i.getStringExtra("xNamaWisata");
         yLokasiWisata = i.getStringExtra("xLokasiWisata");
         yMapsWisata = i.getStringExtra("xMapsWisata");
+        yFotoWisata = i.getStringExtra("xFotoWisata");
         yDeskripsiWisata = i.getStringExtra("xDeskripsiWisata");
-        yFotoWisata = ShareData.foto_wisata;
 
         tvIdWisata = findViewById(R.id.tv_id_wisata_detail);
         tvNamaWisata = findViewById(R.id.tv_nama_wisata_detail);
@@ -61,7 +63,7 @@ public class DetailWisataActivity extends AppCompatActivity {
         tvMapsWisata.setText(yMapsWisata);
         tvDeskripsiWisata.setText(yDeskripsiWisata);
 
-        byte[] imageBytes = Base64.decode(yFotoWisata, Base64.DEFAULT);
+        byte [] imageBytes = Base64.decode(yFotoWisata, Base64.DEFAULT);
 
         Glide.with(DetailWisataActivity.this)
                 .asBitmap()
@@ -79,6 +81,7 @@ public class DetailWisataActivity extends AppCompatActivity {
                 intent.putExtra("varNamaWisata", yNamaWisata);
                 intent.putExtra("varLokasiWisata", yLokasiWisata);
                 intent.putExtra("varMapsWisata", yMapsWisata);
+                intent.putExtra("varFotoWisata", yFotoWisata);
                 intent.putExtra("varDeskripsiWisata", yDeskripsiWisata);
                 startActivity(intent);
                 finish();
@@ -105,7 +108,6 @@ public class DetailWisataActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteWisata(yIdWisata);
                         onBackPressed();
-//                        Toast.makeText(DetailWisataActivity.this, "Id " + yIdWisata, Toast.LENGTH_SHORT).show();
                     }
                 });
                 dialog.show();
@@ -121,7 +123,6 @@ public class DetailWisataActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void deleteWisata(String id)
     {
