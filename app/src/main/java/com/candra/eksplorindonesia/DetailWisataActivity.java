@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -30,7 +31,7 @@ public class DetailWisataActivity extends AppCompatActivity {
 
     private TextView tvIdWisata, tvNamaWisata, tvLokasiWisata, tvDeskripsiWisata, tvMapsWisata;
 
-    private Button btnEditWisata, btnDeleteWisata;
+    private Button btnEditWisata, btnDeleteWisata, btnCheckMaps;
     private ImageView ivDetailFotoWisata;
 
    private ImageView ivBackToWisata;
@@ -88,6 +89,17 @@ public class DetailWisataActivity extends AppCompatActivity {
             }
         });
 
+        btnCheckMaps = findViewById(R.id.btn_check_maps);
+        btnCheckMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse(yMapsWisata);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+
         btnDeleteWisata = findViewById(R.id.btn_delete_wisata);
         btnDeleteWisata.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,12 +145,13 @@ public class DetailWisataActivity extends AppCompatActivity {
             public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
                 String kode = response.body().getKode();
                 String pesan = response.body().getPesan();
-                Toast.makeText(DetailWisataActivity.this, "Pesan : " + pesan, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailWisataActivity.this, "Berhasil menghapus Data !", Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
 
             @Override
             public void onFailure(Call<ModelAllResponse> call, Throwable t) {
-                Toast.makeText(DetailWisataActivity.this, "gagal menghubungi server, Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailWisataActivity.this, "Gagal Menghapus Data ! ", Toast.LENGTH_SHORT).show();
 
             }
         });

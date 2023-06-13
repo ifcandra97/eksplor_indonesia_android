@@ -10,11 +10,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,14 +43,15 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class WisataFragment extends Fragment {
-
-    private TextView tvHasilScan;
+    private EditText etSearchDataRecyclerView;
     private ImageView ivScan, ivAddWisata;
     private RecyclerView rvWisata;
     private AdapterWisata adWisata;
     private RecyclerView.LayoutManager lmWisata;
-    private List<ModelWisata> listWisata = new ArrayList<>();
 
+    private ProgressBar pbWisata;
+    private List<ModelWisata> listWisata = new ArrayList<>();
+    private List<ModelWisata> filteredList = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -89,9 +94,7 @@ public class WisataFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wisata, container, false);
         return view;
     }
@@ -99,7 +102,8 @@ public class WisataFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        pbWisata = view.findViewById(R.id.pb_wisata);
+        pbWisata.setVisibility(View.VISIBLE);
         ivScan = view.findViewById(R.id.iv_scan_wisata);
         ivScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +111,6 @@ public class WisataFragment extends Fragment {
                 scanQR();
             }
         });
-        tvHasilScan = view.findViewById(R.id.tv_hasilscan);
         rvWisata = view.findViewById(R.id.rv_wisata); // Initialize rvWisata here
         ivAddWisata = view.findViewById(R.id.iv_add_wisata);
         ivAddWisata.setOnClickListener(new View.OnClickListener() {
@@ -117,11 +120,45 @@ public class WisataFragment extends Fragment {
             }
         });
 
+        etSearchDataRecyclerView = view.findViewById(R.id.et_search_wisata);
+        etSearchDataRecyclerView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Tidak perlu melakukan implementasi pada metode ini
+            }
 
-        // Set layout manager for rvWisata
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterData(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Tidak perlu melakukan implementasi pada metode ini
+            }
+        });
+
+        // Set layout manager untuk rvWisata
         lmWisata = new LinearLayoutManager(getActivity());
         rvWisata.setLayoutManager(lmWisata);
         retrieveWisata();
+    }
+
+    // Filter data
+    private void filterData(String keyword) {
+        filteredList.clear();
+
+        for (ModelWisata wisata : listWisata) {
+            if (wisata.getNamaWisata().toLowerCase().contains(keyword.toLowerCase())) {
+                filteredList.add(wisata);
+            }
+        }
+        adWisata.filterList(filteredList);
+
+        if (filteredList.size() == 0) {
+            // Tampilkan pesan jika tidak ada hasil pencarian
+            Toast.makeText(getActivity(), "Nama Wisata tidak ditemukan", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void scanQR()
@@ -137,7 +174,7 @@ public class WisataFragment extends Fragment {
     ActivityResultLauncher<ScanOptions> launcher = registerForActivityResult(new ScanContract(), result -> {
         if(result.getContents() != null)
         {
-            tvHasilScan.setText(result.getContents());
+//            tvHasilScan.setText(result.getContents());
         }
     });
 
@@ -161,6 +198,7 @@ public class WisataFragment extends Fragment {
                 adWisata = new AdapterWisata(getContext(), listWisata);
                 rvWisata.setAdapter(adWisata);
                 adWisata.notifyDataSetChanged();
+                pbWisata.setVisibility(View.VISIBLE);
             }
 
             @Override

@@ -75,9 +75,6 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
                 context.startActivity(intent);
             }
         });
-
-
-
     }
 
     @Override
@@ -106,5 +103,11 @@ public class AdapterWisata extends RecyclerView.Adapter<AdapterWisata.VHWisata> 
 
 
         }
+    }
+
+    // Filter data
+    public void filterList(List<ModelWisata> filteredList) {
+        listWisata = filteredList;
+        notifyDataSetChanged();
     }
 }
