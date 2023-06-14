@@ -246,6 +246,7 @@ public class KulinerFragment extends Fragment {
                 adKuliner = new AdapterKuliner(getContext(), listKuliner);
                 rvKuliner.setAdapter(adKuliner);
                 adKuliner.notifyDataSetChanged();
+                pbKuliner.setVisibility(View.GONE);
             }
 
             @Override

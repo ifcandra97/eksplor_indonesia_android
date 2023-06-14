@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.candra.eksplorindonesia.Utility.ControllerLogin;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ControllerLogin cLogin = new ControllerLogin(MainActivity.this);
     private BottomNavigationView nav;
+    private BottomNavigationView navAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,31 +28,68 @@ public class MainActivity extends AppCompatActivity {
         if (cLogin.isLogin(MainActivity.this, cLogin.keySP_email)) {
             setContentView(R.layout.activity_main);
             nav = findViewById(R.id.bottomNav);
+            navAdmin = findViewById(R.id.bottomNavAdmin);
             openFragment(new HomeFragment());
 
-            nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.home:
-                            openFragment(new HomeFragment());
-                            return true;
+            if(cLogin.getPreferences(MainActivity.this, cLogin.keySP_role).equals("admin"))
+            {
+                nav.setVisibility(View.GONE);
+                navAdmin.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.home:
+                                openFragment(new HomeFragment());
+                                return true;
 
-                        case R.id.kuliner:
-                            openFragment(new KulinerFragment());
-                            return true;
+                            case R.id.kuliner:
+                                openFragment(new KulinerFragment());
+                                return true;
 
-                        case R.id.wisata:
-                            openFragment(new WisataFragment());
-                            return true;
+                            case R.id.wisata:
+                                openFragment(new WisataFragment());
+                                return true;
 
-                        case R.id.profile:
-                            openFragment(new MyProfileFragment());
-                            return true;
+                            case R.id.user:
+                                openFragment(new AdminFragment());
+                                return true;
+
+                            case R.id.profile:
+                                openFragment(new MyProfileFragment());
+                                return true;
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
+            }
+            else
+            {
+                navAdmin.setVisibility(View.GONE);
+                nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.home:
+                                openFragment(new HomeFragment());
+                                return true;
+
+                            case R.id.kuliner:
+                                openFragment(new KulinerFragment());
+                                return true;
+
+                            case R.id.wisata:
+                                openFragment(new WisataFragment());
+                                return true;
+
+                            case R.id.profile:
+                                openFragment(new MyProfileFragment());
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+            }
+
         } else {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();

@@ -15,12 +15,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Eksplorasi Indonesia"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/quicksand_semibold"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                />
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                android:background="@color/judulbiru"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -38,17 +48,17 @@
                             android:layout_height="wrap_content"
                             android:text="Halo, "
                             android:textColor="@color/black"
-                            android:fontFamily="@font/quicksand_bold"
-                            android:textSize="16dp"
+                            android:fontFamily="@font/quicksand_semibold"
+                            android:textSize="14dp"
                             />
                         <TextView
                             android:id="@+id/tv_nama_user_home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Candra "
-                            android:textColor="@color/black"
+                            android:textColor="@color/biru"
                             android:fontFamily="@font/quicksand_bold"
-                            android:textSize="16dp"
+                            android:textSize="14dp"
                             />
 
                         <TextView
@@ -57,7 +67,7 @@
                             android:text=" 👋🏻"
                             android:textColor="@color/black"
                             android:fontFamily="@font/quicksand_bold"
-                            android:textSize="16dp"
+                            android:textSize="14dp"
                             />
 
                     </LinearLayout>
@@ -67,16 +77,16 @@
                         android:layout_height="wrap_content"
                         android:text="Selamat datang di Eksplorasi Indonesia"
                         android:textColor="@color/black"
-                        android:fontFamily="@font/quicksand_bold"
-                        android:textSize="13dp"
+                        android:fontFamily="@font/quicksand_semibold"
+                        android:textSize="12dp"
                         />
 
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/iv_to_about"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/about"
                     android:layout_centerVertical="true"
@@ -87,11 +97,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Main Menu"
-                android:fontFamily="@font/quicksand_bold"
+                android:text="Menu Utama"
+                android:fontFamily="@font/quicksand_semibold"
                 android:layout_marginHorizontal="20dp"
                 android:textColor="@color/black"
-                android:textSize="15dp"
+                android:textSize="14dp"
                 />
 
             <LinearLayout
@@ -100,48 +110,50 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 >
+
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
                     android:orientation="vertical"
+                    android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:src="@drawable/wisata_icon"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Wisata"
-                        android:layout_gravity="center_horizontal"
+                        android:textSize="10dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="@font/quicksand_bold"
+                        android:fontFamily="@font/quicksand_semibold"
                         android:textColor="@color/black"
                         />
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
                     android:orientation="vertical"
+                    android:gravity="center"
                     >
                     <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_horizontal"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:src="@drawable/kuliner_icon"
                         />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Kuliner"
-                        android:layout_gravity="center_horizontal"
+                        android:textSize="10dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="@font/quicksand_bold"
+                        android:fontFamily="@font/quicksand_semibold"
                         android:textColor="@color/black"
                         />
 
@@ -151,12 +163,76 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Artikel Terkini"
+                android:text="Tentang Indonesia"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/quicksand_bold"
+                android:fontFamily="@font/quicksand_semibold"
+                android:layout_marginBottom="10dp"
+                android:textSize="14dp"
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/backgroud_list"
+                >
+                
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/indonesia"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Detail"
+                    android:textAllCaps="false"
+                    android:letterSpacing="0.003"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/backgroud_list"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/indonesia"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Detail"
+                    android:textAllCaps="false"
+                    android:letterSpacing="0.003"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    />
+
+
+            </LinearLayout>
 
 
             <TextView
@@ -166,49 +242,38 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/quicksand_bold"
+                android:fontFamily="@font/quicksand_semibold"
                 />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:padding="20dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/backgroud_list"
                 >
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
-                        <ImageView
-                            android:layout_width="200dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/fullname_icon"
-                            />
-                        <ImageView
-                            android:layout_width="200dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/fullname_icon"
-                            />
-                        <ImageView
-                            android:layout_width="200dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/fullname_icon"
-                            />
-                        <ImageView
-                            android:layout_width="200dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/fullname_icon"
-                            />
 
-                    </LinearLayout>
-                </ScrollView>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/indonesia"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Detail"
+                    android:textAllCaps="false"
+                    android:letterSpacing="0.003"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    />
+
+
             </LinearLayout>
 
 
@@ -219,9 +284,40 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/quicksand_bold"
+                android:fontFamily="@font/quicksand_semibold"
                 />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/backgroud_list"
+                android:layout_marginBottom="60dp"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/indonesia"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Detail"
+                    android:textAllCaps="false"
+                    android:letterSpacing="0.003"
+                    android:fontFamily="@font/quicksand_semibold"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    />
+
+
+            </LinearLayout>
 
 
 
