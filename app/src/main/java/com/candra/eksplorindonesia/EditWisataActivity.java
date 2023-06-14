@@ -46,7 +46,6 @@ public class EditWisataActivity extends AppCompatActivity {
     private Uri selectedImageUri;
     private boolean gantiFotoWisata = false;
 
-    private ShareData sd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +73,11 @@ public class EditWisataActivity extends AppCompatActivity {
         etDeskripsiWisata.setText(tempDeskripsiWisata);
 
         ivEditFotoWisata = findViewById(R.id.iv_edit_foto_wisata);
-
-        byte [] image = Base64.decode(tempFotoWisata, Base64.DEFAULT);
+        byte [] imageWisata = Base64.decode(tempFotoWisata, Base64.DEFAULT);
 
         Glide.with(EditWisataActivity.this)
                 .asBitmap()
-                .load(image)
+                .load(imageWisata)
                 .into(ivEditFotoWisata);
 
         ivEditFotoWisata.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +201,7 @@ public class EditWisataActivity extends AppCompatActivity {
         }
         else
         {
-            Call <ModelAllResponse> updateUserTanpaFoto = ard.ardUpdateDataWisataTanpaFoto(
+            Call <ModelAllResponse> updateDataWisataTanpaFoto = ard.ardUpdateDataWisataTanpaFoto(
                     RequestBody.create(MediaType.parse("text/plain"), idWisata),
                     RequestBody.create(MediaType.parse("text/plain"), etNamaWisata.getText().toString()),
                     RequestBody.create(MediaType.parse("text/plain"), etLokasiWisata.getText().toString()),
@@ -211,7 +209,7 @@ public class EditWisataActivity extends AppCompatActivity {
                     RequestBody.create(MediaType.parse("text/plain"), etDeskripsiWisata.getText().toString())
             );
 
-            updateUserTanpaFoto.enqueue(new Callback<ModelAllResponse>() {
+            updateDataWisataTanpaFoto.enqueue(new Callback<ModelAllResponse>() {
                 @Override
                 public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
                     String code = response.body().getKode();
@@ -237,9 +235,6 @@ public class EditWisataActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-
     }
 
     @Override

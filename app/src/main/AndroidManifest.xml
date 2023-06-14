@@ -17,6 +17,12 @@
         android:theme="@style/Theme.EksplorIndonesia"
         tools:targetApi="31">
         <activity
+            android:name=".ZoomWisata"
+            android:exported="false" />
+        <activity
+            android:name=".EditKulinerActivity"
+            android:exported="false" />
+        <activity
             android:name=".AboutActivity"
             android:exported="false" />
         <activity

@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".KulinerFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
         <RelativeLayout
+            android:id="@+id/rv_atas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
@@ -56,6 +58,7 @@
 
         <EditText
             android:id="@+id/et_search_kuliner"
+            android:layout_below="@+id/rv_atas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search Kuliner"
@@ -67,13 +70,23 @@
             android:drawablePadding="10dp"
             />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/pb_kuliner"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_ok" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_kuliner"
+            android:layout_below="@id/et_search_kuliner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
             tools:listitem="@layout/list_kuliner"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

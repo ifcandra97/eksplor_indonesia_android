@@ -154,4 +154,20 @@ public interface APIRequestData
     );
 
 
+    @FormUrlEncoded
+    @POST("wisata/scan_wisata.php")
+    Call<ModelAllResponse> ardScanWisata(
+            @Field("nama_wisata") String nama_wisata
+    );
+
+    @FormUrlEncoded
+    @POST("kuliner/scan_kuliner.php")
+    Call<ModelAllResponse> ardScanKuliner(
+            @Field("nama_kuliner") String nama_kuliner
+    );
+
+
+
+
+
 }

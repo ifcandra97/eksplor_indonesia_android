@@ -22,10 +22,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.candra.eksplorindonesia.API.APIRequestData;
 import com.candra.eksplorindonesia.API.RetrofitServer;
 import com.candra.eksplorindonesia.Adapter.AdapterWisata;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
+import com.candra.eksplorindonesia.Model.ModelScanWisata;
+import com.candra.eksplorindonesia.Model.ModelUser;
 import com.candra.eksplorindonesia.Model.ModelWisata;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
@@ -48,8 +51,8 @@ public class WisataFragment extends Fragment {
     private RecyclerView rvWisata;
     private AdapterWisata adWisata;
     private RecyclerView.LayoutManager lmWisata;
-
-    private ProgressBar pbWisata;
+    private List<ModelScanWisata> listScanWisata = new ArrayList<>();
+    private LottieAnimationView pbWisata;
     private List<ModelWisata> listWisata = new ArrayList<>();
     private List<ModelWisata> filteredList = new ArrayList<>();
 
@@ -174,7 +177,43 @@ public class WisataFragment extends Fragment {
     ActivityResultLauncher<ScanOptions> launcher = registerForActivityResult(new ScanContract(), result -> {
         if(result.getContents() != null)
         {
-//            tvHasilScan.setText(result.getContents());
+            String hasil = result.getContents();
+
+            APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
+            Call<ModelAllResponse> prosesRetrieveScan = ard.ardScanWisata(hasil);
+
+            prosesRetrieveScan.enqueue(new Callback<ModelAllResponse>() {
+                @Override
+                public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
+                    String kode = response.body().getKode();
+                    String pesan = response.body().getPesan();
+
+                    listScanWisata = response.body().getDataScanWisata();
+
+                    if(kode.equals("0"))
+                    {
+                        Toast.makeText(getActivity(), "Data tidak ditemukan !", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Intent intentDetail = new Intent(getActivity(), DetailWisataActivity.class);
+                        intentDetail.putExtra("xIdWisata", listScanWisata.get(0).getIdWisata());
+                        intentDetail.putExtra("xNamaWisata", listScanWisata.get(0).getNamaWisata());
+                        intentDetail.putExtra("xLokasiWisata", listScanWisata.get(0).getLokasiWisata());
+                        intentDetail.putExtra("xMapsWisata", listScanWisata.get(0).getMapsWisata());
+                        intentDetail.putExtra("xFotoWisata", listScanWisata.get(0).getFotoWisata());
+                        intentDetail.putExtra("xDeskripsiWisata", listScanWisata.get(0).getDeskripsiWisata());
+                        startActivity(intentDetail);
+                        Toast.makeText(getActivity(), "Data Berhasil ditemukan !", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                @Override
+                public void onFailure(Call<ModelAllResponse> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Gagal melakukan scanning", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
     });
 
@@ -191,6 +230,7 @@ public class WisataFragment extends Fragment {
         getRetrieveWisata.enqueue(new Callback<ModelAllResponse>() {
             @Override
             public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
+                pbWisata.setVisibility(View.GONE);
                 String kode = response.body().getKode();
                 String pesan = response.body().getPesan();
                 listWisata = response.body().getDataWisata();
@@ -198,7 +238,7 @@ public class WisataFragment extends Fragment {
                 adWisata = new AdapterWisata(getContext(), listWisata);
                 rvWisata.setAdapter(adWisata);
                 adWisata.notifyDataSetChanged();
-                pbWisata.setVisibility(View.VISIBLE);
+
             }
 
             @Override

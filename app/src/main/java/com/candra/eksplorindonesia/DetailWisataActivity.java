@@ -3,6 +3,7 @@ package com.candra.eksplorindonesia;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -58,6 +59,15 @@ public class DetailWisataActivity extends AppCompatActivity {
         tvDeskripsiWisata = findViewById(R.id.tv_deskripsi_wisata_detail);
         ivDetailFotoWisata = findViewById(R.id.iv_wisata);
 
+        ivDetailFotoWisata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent z = new Intent(DetailWisataActivity.this, ZoomWisata.class);
+                z.putExtra("zFotoWisata", yFotoWisata);
+                startActivity(z);
+            }
+        });
+
         tvIdWisata.setText(yIdWisata);
         tvNamaWisata.setText(yNamaWisata);
         tvLokasiWisata.setText(yLokasiWisata);
@@ -70,6 +80,8 @@ public class DetailWisataActivity extends AppCompatActivity {
                 .asBitmap()
                 .load(imageBytes)
                 .into(ivDetailFotoWisata);
+
+
 
 
         btnEditWisata = findViewById(R.id.btn_edit_wisata);
@@ -93,10 +105,16 @@ public class DetailWisataActivity extends AppCompatActivity {
         btnCheckMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri gmmIntentUri = Uri.parse(yMapsWisata);
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
+                try {
+                    Uri gmmIntentUri = Uri.parse(yMapsWisata);
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
+                }
+                catch (ActivityNotFoundException e)
+                {
+                    Toast.makeText(DetailWisataActivity.this, "Google Maps Tidak tersedia !", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

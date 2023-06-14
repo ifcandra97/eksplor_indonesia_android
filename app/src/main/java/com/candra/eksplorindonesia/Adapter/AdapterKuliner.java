@@ -1,5 +1,6 @@
 package com.candra.eksplorindonesia.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Base64;
@@ -20,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.candra.eksplorindonesia.DetailKulinerActivity;
 import com.candra.eksplorindonesia.DetailWisataActivity;
 import com.candra.eksplorindonesia.Model.ModelKuliner;
+import com.candra.eksplorindonesia.Model.ModelWisata;
 import com.candra.eksplorindonesia.R;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterKuliner.VHKuliner holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterKuliner.VHKuliner holder, @SuppressLint("RecyclerView") int position) {
         ModelKuliner mk = listKuliner.get(position);
         holder.tvIdKuliner.setText(mk.getIdKuliner());
         holder.tvNamaKuliner.setText(mk.getNamaKuliner());
@@ -56,6 +58,20 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
                 .asBitmap()
                 .load(imageBytes)
                 .into(holder.ivFotoKuliner);
+
+        holder.btnDetailKuliner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ModelKuliner clickedKuliner = listKuliner.get(position);
+                Intent intent = new Intent(context, DetailKulinerActivity.class);
+                intent.putExtra("xIdKuliner", clickedKuliner.getIdKuliner());
+                intent.putExtra("xNamaKuliner", clickedKuliner.getNamaKuliner());
+                intent.putExtra("xAsalKuliner", clickedKuliner.getAsalKuliner());
+                intent.putExtra("xDeskripsiKuliner", clickedKuliner.getDeskripsiKuliner());
+                intent.putExtra("xFotoKuliner", clickedKuliner.getFotoKuliner());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -94,4 +110,10 @@ public class AdapterKuliner extends RecyclerView.Adapter<AdapterKuliner.VHKuline
 
         }
     }
+
+    public void filterList(List<ModelKuliner> filteredList) {
+        listKuliner = filteredList;
+        notifyDataSetChanged();
+    }
+
 }

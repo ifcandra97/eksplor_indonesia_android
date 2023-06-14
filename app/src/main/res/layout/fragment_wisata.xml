@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WisataFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -69,22 +70,14 @@
             android:drawablePadding="10dp"
             />
 
-<!--        <TextView-->
-<!--            android:id="@+id/tv_hasilscan"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="-"-->
-<!--            android:fontFamily="@font/quicksand_bold"-->
-<!--            android:layout_marginStart="10dp"-->
-<!--            />-->
-
-        <ProgressBar
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/pb_wisata"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_centerInParent="true"
-            android:indeterminateTint="@color/biru"
-            />
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading_ok" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_wisata"
