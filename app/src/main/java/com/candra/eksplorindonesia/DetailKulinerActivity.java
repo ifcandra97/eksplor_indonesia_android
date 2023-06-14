@@ -49,6 +49,15 @@ public class DetailKulinerActivity extends AppCompatActivity
         tvDeskripsiKuliner = findViewById(R.id.tv_deskripsi_kuliner_detail);
         ivDetailFotoKuliner = findViewById(R.id.iv_kuliner);
 
+        ivDetailFotoKuliner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent z = new Intent(DetailKulinerActivity.this, ZoomKuliner.class);
+                z.putExtra("zFotoKuliner", yFotoKuliner);
+                startActivity(z);
+            }
+        });
+
         tvIdKuliner.setText(yIdKuliner);
         tvNamaKuliner.setText(yNamaKuliner);
         tvAsalKuliner.setText(yAsalKuliner);
@@ -60,6 +69,8 @@ public class DetailKulinerActivity extends AppCompatActivity
                 .asBitmap()
                 .load(imageBytes)
                 .into(ivDetailFotoKuliner);
+
+
 
         btnEditKuliner = findViewById(R.id.btn_edit_kuliner);
         btnEditKuliner.setOnClickListener(new View.OnClickListener() {

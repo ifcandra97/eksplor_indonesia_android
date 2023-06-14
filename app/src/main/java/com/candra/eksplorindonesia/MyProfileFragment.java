@@ -24,6 +24,7 @@ import com.candra.eksplorindonesia.API.RetrofitServer;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
 import com.candra.eksplorindonesia.Utility.ControllerLogin;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 
 /**
@@ -33,7 +34,9 @@ import retrofit2.Call;
  */
 public class MyProfileFragment extends Fragment {
 
-    private ImageView ivEditProfile, ivFotoUser;
+    private ImageView ivEditProfile;
+
+    private CircleImageView ivFotoUser;
 
     private TextView tvIdUser, tvNamaUser, tvEmailUser, tvRoleUser, tvNomorTeleponUser;
     private Button btnLogOut;
@@ -108,6 +111,15 @@ public class MyProfileFragment extends Fragment {
                 .asBitmap()
                 .load(imageBytes)
                 .into(ivFotoUser);
+
+        ivFotoUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent z = new Intent(getActivity(), ZoomUser.class);
+                z.putExtra("zFotoUser", base64Image);
+                startActivity(z);
+            }
+        });
 
         tvIdUser = view.findViewById(R.id.tv_id_user);
         tvNamaUser = view.findViewById(R.id.tv_nama_user);
