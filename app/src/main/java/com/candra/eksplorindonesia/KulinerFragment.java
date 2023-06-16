@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -58,6 +59,7 @@ public class KulinerFragment extends Fragment {
     private List<ModelKuliner> listKuliner = new ArrayList<>();
 
     private List <ModelKuliner> filteredList = new ArrayList<>();
+    private SwipeRefreshLayout swipeBawahRefresh;
 
     private ControllerLogin cLogin = new ControllerLogin(getActivity());
 
@@ -158,6 +160,9 @@ public class KulinerFragment extends Fragment {
         lmKuliner = new LinearLayoutManager(getActivity());
         rvKuliner.setLayoutManager(lmKuliner);
         retrieveKuliner();
+
+        swipeBawahRefresh = view.findViewById(R.id.swipe_refresh_kuliner);
+        refresh();
     }
 
     private void filterData(String keyword) {
@@ -237,6 +242,7 @@ public class KulinerFragment extends Fragment {
     {
         APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
 
+        pbKuliner.setVisibility(View.VISIBLE);
         Call<ModelAllResponse> getRetrieveKuliner = ard.ardRetrieveDataKuliner();
         getRetrieveKuliner.enqueue(new Callback<ModelAllResponse>() {
             @Override
@@ -254,6 +260,18 @@ public class KulinerFragment extends Fragment {
             @Override
             public void onFailure(Call<ModelAllResponse> call, Throwable t) {
                 Toast.makeText(getActivity(), "Gagal menghubungi server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    //  Refresh ketika di Scroll
+    private void refresh() {
+
+        swipeBawahRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrieveKuliner();
+                Toast.makeText(getActivity(), "Data Berhasil Diperbarui", Toast.LENGTH_SHORT).show();
+                swipeBawahRefresh.setRefreshing(false);
             }
         });
     }

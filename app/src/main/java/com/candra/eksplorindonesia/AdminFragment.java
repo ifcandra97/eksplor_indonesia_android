@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -60,6 +61,8 @@ public class AdminFragment extends Fragment {
 
     private LottieAnimationView pbUser;
 
+    private SwipeRefreshLayout swipeBawahRefresh;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,6 +75,7 @@ public class AdminFragment extends Fragment {
 
     public AdminFragment() {
         // Required empty public constructor
+        swipeBawahRefresh = null;
     }
 
     /**
@@ -144,6 +148,9 @@ public class AdminFragment extends Fragment {
         lmUser = new LinearLayoutManager(getActivity());
         rvUser.setLayoutManager(lmUser);
         retrieveUser();
+
+       swipeBawahRefresh = view.findViewById(R.id.swipe_refresh);
+       refresh();
 
     }
 
@@ -233,6 +240,7 @@ public class AdminFragment extends Fragment {
         APIRequestData ard = RetrofitServer.connectionRetrofit().create(APIRequestData.class);
 
         Call<ModelAllResponse> getRetrieveUser = ard.ardRetrieveDataUser();
+        pbUser.setVisibility(View.VISIBLE);
         getRetrieveUser.enqueue(new Callback<ModelAllResponse>() {
             @Override
             public void onResponse(Call<ModelAllResponse> call, Response<ModelAllResponse> response) {
@@ -244,12 +252,26 @@ public class AdminFragment extends Fragment {
                 adUser = new AdapterUser(getContext(), listUser);
                 rvUser.setAdapter(adUser);
                 adUser.notifyDataSetChanged();
+                pbUser.setVisibility(View.GONE);
 
             }
 
             @Override
             public void onFailure(Call<ModelAllResponse> call, Throwable t) {
                 Toast.makeText(getActivity(), "Gagal menghubungi server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //  Refresh ketika di Scroll
+    private void refresh() {
+
+        swipeBawahRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrieveUser();
+                Toast.makeText(getActivity(), "Data Berhasil Diperbarui", Toast.LENGTH_SHORT).show();
+                swipeBawahRefresh.setRefreshing(false);
             }
         });
     }

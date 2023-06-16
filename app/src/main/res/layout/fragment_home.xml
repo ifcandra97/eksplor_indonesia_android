@@ -21,10 +21,11 @@
                 android:text="Eksplorasi Indonesia"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:textColor="@color/biru"
+                android:textColor="#4C2C1F"
                 android:fontFamily="@font/quicksand_bold"
                 android:textAlignment="center"
                 android:textSize="20dp"
+                android:background="@drawable/backgroud_list"
                 />
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -49,8 +50,9 @@
                             android:text="Halo, "
                             android:textColor="@color/black"
                             android:fontFamily="@font/quicksand_semibold"
-                            android:textSize="14dp"
+                            android:textSize="14sp"
                             />
+
                         <TextView
                             android:id="@+id/tv_nama_user_home"
                             android:layout_width="wrap_content"
@@ -58,7 +60,7 @@
                             android:text="Candra "
                             android:textColor="@color/biru"
                             android:fontFamily="@font/quicksand_bold"
-                            android:textSize="14dp"
+                            android:textSize="14sp"
                             />
 
                         <TextView
@@ -67,7 +69,7 @@
                             android:text=" 👋🏻"
                             android:textColor="@color/black"
                             android:fontFamily="@font/quicksand_bold"
-                            android:textSize="14dp"
+                            android:textSize="14sp"
                             />
 
                     </LinearLayout>
@@ -78,7 +80,7 @@
                         android:text="Selamat datang di Eksplorasi Indonesia"
                         android:textColor="@color/black"
                         android:fontFamily="@font/quicksand_semibold"
-                        android:textSize="12dp"
+                        android:textSize="12sp"
                         />
 
                 </LinearLayout>
@@ -101,7 +103,7 @@
                 android:fontFamily="@font/quicksand_bold"
                 android:layout_marginHorizontal="20dp"
                 android:textColor="@color/black"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 />
 
             <LinearLayout
@@ -127,7 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Wisata"
-                        android:textSize="10dp"
+                        android:textSize="10sp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/quicksand_semibold"
                         android:textColor="@color/black"
@@ -152,7 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Kuliner"
-                        android:textSize="10dp"
+                        android:textSize="10sp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/quicksand_semibold"
                         android:textColor="@color/black"
@@ -170,7 +172,7 @@
                 android:textColor="@color/black"
                 android:fontFamily="@font/quicksand_bold"
                 android:layout_marginBottom="10dp"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 />
 
             <LinearLayout

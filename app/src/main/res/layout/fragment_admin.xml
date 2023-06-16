@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:background="@drawable/judul_atas"
+            android:background="@drawable/backgroud_list"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -72,14 +72,23 @@
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/loading_ok" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_user"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/et_search_user"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            tools:listitem="@layout/list_user"
-            />
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_user"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                tools:listitem="@layout/list_user"
+                />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     </RelativeLayout>
 </FrameLayout>

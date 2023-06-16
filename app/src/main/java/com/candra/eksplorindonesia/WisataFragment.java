@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -56,7 +57,7 @@ public class WisataFragment extends Fragment {
     private LottieAnimationView pbWisata;
     private List<ModelWisata> listWisata = new ArrayList<>();
     private List<ModelWisata> filteredList = new ArrayList<>();
-
+    private SwipeRefreshLayout swipeBawahRefresh;
     private ControllerLogin cLogin = new ControllerLogin(getActivity());
 
     // TODO: Rename parameter arguments, choose names that match
@@ -153,6 +154,9 @@ public class WisataFragment extends Fragment {
         lmWisata = new LinearLayoutManager(getActivity());
         rvWisata.setLayoutManager(lmWisata);
         retrieveWisata();
+
+        swipeBawahRefresh = view.findViewById(R.id.swipe_refresh_wisata);
+        refresh();
     }
 
     // Filter data
@@ -252,6 +256,19 @@ public class WisataFragment extends Fragment {
             @Override
             public void onFailure(Call<ModelAllResponse> call, Throwable t) {
                 Toast.makeText(getActivity(), "Gagal menghubungi server: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //  Refresh ketika di Scroll
+    private void refresh() {
+
+        swipeBawahRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrieveWisata();
+                Toast.makeText(getActivity(), "Data Berhasil Diperbarui", Toast.LENGTH_SHORT).show();
+                swipeBawahRefresh.setRefreshing(false);
             }
         });
     }
