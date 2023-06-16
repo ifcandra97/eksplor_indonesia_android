@@ -28,6 +28,7 @@ import com.candra.eksplorindonesia.Adapter.AdapterWisata;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
 import com.candra.eksplorindonesia.Model.ModelKuliner;
 import com.candra.eksplorindonesia.Model.ModelScanKuliner;
+import com.candra.eksplorindonesia.Utility.ControllerLogin;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -57,6 +58,8 @@ public class KulinerFragment extends Fragment {
     private List<ModelKuliner> listKuliner = new ArrayList<>();
 
     private List <ModelKuliner> filteredList = new ArrayList<>();
+
+    private ControllerLogin cLogin = new ControllerLogin(getActivity());
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -111,6 +114,7 @@ public class KulinerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         pbKuliner = view.findViewById(R.id.pb_kuliner);
         pbKuliner.setVisibility(View.VISIBLE);
+
         // Code
         ivScan = view.findViewById(R.id.iv_scan_kuliner);
         ivScan.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +126,10 @@ public class KulinerFragment extends Fragment {
 
         rvKuliner = view.findViewById(R.id.rv_kuliner);
         ivAddKuliner = view.findViewById(R.id.iv_add_kuliner);
+        if(cLogin.getPreferences(getActivity(), cLogin.keySP_role).equals("user"))
+        {
+            ivAddKuliner.setVisibility(View.GONE);
+        }
         ivAddKuliner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,22 +160,16 @@ public class KulinerFragment extends Fragment {
         retrieveKuliner();
     }
 
-    private void filterData(String keyword)
-    {
+    private void filterData(String keyword) {
         filteredList.clear();
-        for(ModelKuliner kuliner : listKuliner)
-        {
-            if(kuliner.getNamaKuliner().toLowerCase().contains(keyword.toLowerCase()))
-            {
+        for (ModelKuliner kuliner : listKuliner) {
+            if (kuliner.getNamaKuliner().toLowerCase().contains(keyword.toLowerCase())) {
                 filteredList.add(kuliner);
             }
         }
-        adKuliner = new AdapterKuliner(getContext(), listKuliner);
-        rvKuliner.setAdapter(adKuliner);
-
-        if(filteredList.size() == 0)
-        {
-            Toast.makeText(getActivity(), "Nama Kuliner tidak ditemukan !", Toast.LENGTH_SHORT).show();
+        adKuliner.filterList(filteredList);
+        if (filteredList.size() == 0) {
+            Toast.makeText(getActivity(), "Nama Kuliner tidak ditemukan!", Toast.LENGTH_SHORT).show();
         }
     }
 

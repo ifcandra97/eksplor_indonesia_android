@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.candra.eksplorindonesia.API.APIRequestData;
 import com.candra.eksplorindonesia.API.RetrofitServer;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
+import com.candra.eksplorindonesia.Utility.ControllerLogin;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +32,7 @@ public class DetailKulinerActivity extends AppCompatActivity
     private Button btnEditKuliner, btnDeleteKuliner;
     private ImageView ivDetailFotoKuliner, ivBackToKuliner;
 
+    private ControllerLogin cLogin = new ControllerLogin(DetailKulinerActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,12 @@ public class DetailKulinerActivity extends AppCompatActivity
 
 
         btnEditKuliner = findViewById(R.id.btn_edit_kuliner);
+        btnDeleteKuliner = findViewById(R.id.btn_delete_kuliner);
+        if(cLogin.getPreferences(DetailKulinerActivity.this, cLogin.keySP_role).equals("user"))
+        {
+            btnEditKuliner.setVisibility(View.GONE);
+            btnDeleteKuliner.setVisibility(View.GONE);
+        }
         btnEditKuliner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +96,8 @@ public class DetailKulinerActivity extends AppCompatActivity
             }
         });
 
-        btnDeleteKuliner = findViewById(R.id.btn_delete_kuliner);
+
+
         btnDeleteKuliner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +115,7 @@ public class DetailKulinerActivity extends AppCompatActivity
                 dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        deleteKuliner(yNamaKuliner);
+                        deleteKuliner(yIdKuliner);
                         onBackPressed();
                     }
                 });
@@ -134,7 +143,7 @@ public class DetailKulinerActivity extends AppCompatActivity
                 String kode = response.body().getKode();
                 String pesan = response.body().getPesan();
                 Toast.makeText(DetailKulinerActivity.this, "Berhasil menghapus Data !", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                finish();
             }
 
             @Override

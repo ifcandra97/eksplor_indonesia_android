@@ -17,6 +17,15 @@
         android:theme="@style/Theme.EksplorIndonesia"
         tools:targetApi="31">
         <activity
+            android:name=".DetailTentangIndonesiaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditRoleUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivityAdmin"
+            android:exported="false" />
+        <activity
             android:name=".ZoomUser"
             android:exported="false" />
         <activity

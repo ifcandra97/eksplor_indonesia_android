@@ -34,7 +34,7 @@ import retrofit2.Call;
  */
 public class MyProfileFragment extends Fragment {
 
-    private ImageView ivEditProfile;
+    private ImageView ivEditProfile, ivQR;
 
     private CircleImageView ivFotoUser;
 
@@ -140,6 +140,9 @@ public class MyProfileFragment extends Fragment {
                 Logout();
             }
         });
+
+        ivQR = view.findViewById(R.id.iv_qr);
+        GenerateQRCode.generateCode(cLogin.getPreferences(getActivity(), cLogin.keySP_fullname), ivQR);
     }
 
     private void Logout()
@@ -148,7 +151,7 @@ public class MyProfileFragment extends Fragment {
         dialog.setTitle("Perhatian !");
         dialog.setMessage("Apakah anda yakin ingin Logout ?");
         dialog.setCancelable(true);
-        dialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 cLogin.setPreferences(getActivity(), cLogin.keySP_email, null);
@@ -157,7 +160,7 @@ public class MyProfileFragment extends Fragment {
             }
         });
 
-        dialog.setPositiveButton("No", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

@@ -131,6 +131,14 @@
                 android:textColor="@color/biru"
                 />
 
+            <ImageView
+                android:id="@+id/iv_qr"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerInside" />
+
 
             <Button
                 android:id="@+id/btn_logout"
@@ -152,11 +160,6 @@
                 android:text="id123"
                 android:visibility="gone"
                 />
-
-
-
-
-
 
         </LinearLayout>
 

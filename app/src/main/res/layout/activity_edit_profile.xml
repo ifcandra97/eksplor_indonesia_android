@@ -93,7 +93,7 @@
                 android:layout_marginTop="10dp"
                 android:inputType="text"
                 android:layout_marginHorizontal="20dp"
-                android:background="@drawable/edittext_login_background"
+                android:background="@drawable/backgroud_list"
                 android:padding="14dp"
                 />
 
@@ -116,7 +116,7 @@
                 android:layout_marginTop="10dp"
                 android:inputType="textEmailAddress"
                 android:layout_marginHorizontal="20dp"
-                android:background="@drawable/edittext_login_background"
+                android:background="@drawable/backgroud_list"
                 android:padding="14dp"
                 />
 
@@ -139,7 +139,7 @@
                 android:layout_marginTop="10dp"
                 android:inputType="text"
                 android:layout_marginHorizontal="20dp"
-                android:background="@drawable/edittext_login_background"
+                android:background="@drawable/backgroud_list"
                 android:padding="14dp"
                 />
 
@@ -162,7 +162,7 @@
                 android:layout_marginTop="10dp"
                 android:inputType="textPassword"
                 android:layout_marginHorizontal="20dp"
-                android:background="@drawable/edittext_login_background"
+                android:background="@drawable/backgroud_list"
                 android:padding="14dp"
                 />
 

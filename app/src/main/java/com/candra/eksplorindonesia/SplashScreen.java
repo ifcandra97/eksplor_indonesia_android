@@ -8,10 +8,13 @@ import android.os.Handler;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.candra.eksplorindonesia.Utility.ControllerLogin;
 
 public class SplashScreen extends AppCompatActivity {
 
     private ImageView backgroundSplash;
+
+    private ControllerLogin cLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +27,21 @@ public class SplashScreen extends AppCompatActivity {
                 .load(R.drawable.splash)
                 .into(backgroundSplash);
 
+        cLogin = new ControllerLogin(SplashScreen.this);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                String role = cLogin.getPreferences(SplashScreen.this, cLogin.keySP_role);
+                if(role != null && !role.isEmpty()) {
+                    if (role.equals("admin")) {
+                        startActivity(new Intent(SplashScreen.this, MainActivityAdmin.class));
+                    } else {
+                        startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                    }
+                } else {
+                    startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                }
             }
         }, 4000);
 

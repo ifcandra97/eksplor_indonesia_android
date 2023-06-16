@@ -15,18 +15,18 @@ import com.candra.eksplorindonesia.Utility.ControllerLogin;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityAdmin extends AppCompatActivity {
 
-    private ControllerLogin cLogin = new ControllerLogin(MainActivity.this);
-    public BottomNavigationView nav;
+    private ControllerLogin cLogin = new ControllerLogin(MainActivityAdmin.this);
+    private BottomNavigationView nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (cLogin.isLogin(MainActivity.this, cLogin.keySP_email)) {
-            setContentView(R.layout.activity_main);
-            nav = findViewById(R.id.bottomNav);
+        if (cLogin.isLogin(MainActivityAdmin.this, cLogin.keySP_email)) {
+            setContentView(R.layout.activity_main_admin);
+            nav = findViewById(R.id.bottomNavAdmin);
 
             openFragment(new HomeFragment());
 
@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
                             openFragment(new WisataFragment());
                             return true;
 
+                        case R.id.user:
+                            openFragment(new AdminFragment());
+                            return true;
+
                         case R.id.profile:
                             openFragment(new MyProfileFragment());
                             return true;
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
         } else {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            startActivity(new Intent(MainActivityAdmin.this, LoginActivity.class));
             finish();
         }
     }
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private void openFragment(Fragment f) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fl_container, f);
+        ft.replace(R.id.fl_containerAdmin, f);
         ft.commit();
     }
 }

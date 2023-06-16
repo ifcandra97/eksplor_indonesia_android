@@ -21,8 +21,8 @@
                 android:text="Eksplorasi Indonesia"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/quicksand_semibold"
+                android:textColor="@color/biru"
+                android:fontFamily="@font/quicksand_bold"
                 android:textAlignment="center"
                 android:textSize="20dp"
                 />
@@ -98,10 +98,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Menu Utama"
-                android:fontFamily="@font/quicksand_semibold"
+                android:fontFamily="@font/quicksand_bold"
                 android:layout_marginHorizontal="20dp"
                 android:textColor="@color/black"
-                android:textSize="14dp"
+                android:textSize="13dp"
                 />
 
             <LinearLayout
@@ -110,18 +110,18 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 >
-
                 <LinearLayout
+                    android:id="@+id/ll_pindah_fragment_wisata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="35dp"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/wisata_icon"
+                        android:src="@drawable/wisata_menu"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -136,16 +136,17 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_pindah_fragment_kuliner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="40dp"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/kuliner_icon"
+                        android:src="@drawable/kuliner_menu"
                         />
                     <TextView
                         android:layout_width="wrap_content"
@@ -167,9 +168,9 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="30dp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/quicksand_semibold"
+                android:fontFamily="@font/quicksand_bold"
                 android:layout_marginBottom="10dp"
-                android:textSize="14dp"
+                android:textSize="13dp"
                 />
 
             <LinearLayout
@@ -186,41 +187,19 @@
                     android:src="@drawable/indonesia"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-
                     />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lihat Detail"
-                    android:textAllCaps="false"
-                    android:letterSpacing="0.003"
-                    android:fontFamily="@font/quicksand_semibold"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="20dp"
-                    />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="20dp"
-                android:background="@drawable/backgroud_list"
-                >
-
-                <ImageView
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/indonesia"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-
-                    />
+                    android:layout_height="wrap_content"
+                    android:text="@string/tentang_indonesia"
+                    android:justificationMode="inter_word"
+                    android:paddingHorizontal="20dp"
+                    android:maxLines="3"
+                    android:ellipsize="end"/>
 
                 <Button
+                    android:id="@+id/btn_lihat_detail_tentang_indonesia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Lihat Detail"
@@ -229,99 +208,11 @@
                     android:fontFamily="@font/quicksand_semibold"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
                     />
 
 
             </LinearLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rekomendasi Wisata"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/quicksand_semibold"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="20dp"
-                android:background="@drawable/backgroud_list"
-                >
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/indonesia"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-
-                    />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lihat Detail"
-                    android:textAllCaps="false"
-                    android:letterSpacing="0.003"
-                    android:fontFamily="@font/quicksand_semibold"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="20dp"
-                    />
-
-
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rekomendasi Kuliner"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/quicksand_semibold"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginHorizontal="20dp"
-                android:background="@drawable/backgroud_list"
-                android:layout_marginBottom="60dp"
-                >
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/indonesia"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-
-                    />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lihat Detail"
-                    android:textAllCaps="false"
-                    android:letterSpacing="0.003"
-                    android:fontFamily="@font/quicksand_semibold"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="20dp"
-                    />
-
-
-            </LinearLayout>
-
-
-
-
 
 
         </LinearLayout>

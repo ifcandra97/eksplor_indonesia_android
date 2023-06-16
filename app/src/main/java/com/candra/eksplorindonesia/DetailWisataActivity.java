@@ -21,6 +21,7 @@ import com.candra.eksplorindonesia.API.APIRequestData;
 import com.candra.eksplorindonesia.API.RetrofitServer;
 import com.candra.eksplorindonesia.Adapter.AdapterWisata;
 import com.candra.eksplorindonesia.Model.ModelAllResponse;
+import com.candra.eksplorindonesia.Utility.ControllerLogin;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,9 +36,11 @@ public class DetailWisataActivity extends AppCompatActivity {
     private Button btnEditWisata, btnDeleteWisata, btnCheckMaps;
     private ImageView ivDetailFotoWisata;
 
-   private ImageView ivBackToWisata;
+    private ImageView ivBackToWisata;
 
-   private ShareData sd;
+    private ShareData sd;
+
+    private ControllerLogin cLogin = new ControllerLogin(DetailWisataActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +84,14 @@ public class DetailWisataActivity extends AppCompatActivity {
                 .load(imageBytes)
                 .into(ivDetailFotoWisata);
 
-
-
-
         btnEditWisata = findViewById(R.id.btn_edit_wisata);
+        btnDeleteWisata = findViewById(R.id.btn_delete_wisata);
+
+        if(cLogin.getPreferences(DetailWisataActivity.this, cLogin.keySP_role).equals("user"))
+        {
+            btnEditWisata.setVisibility(View.GONE);
+            btnDeleteWisata.setVisibility(View.GONE);
+        }
         btnEditWisata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +125,7 @@ public class DetailWisataActivity extends AppCompatActivity {
             }
         });
 
-        btnDeleteWisata = findViewById(R.id.btn_delete_wisata);
+
         btnDeleteWisata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,7 +171,7 @@ public class DetailWisataActivity extends AppCompatActivity {
                 String kode = response.body().getKode();
                 String pesan = response.body().getPesan();
                 Toast.makeText(DetailWisataActivity.this, "Berhasil menghapus Data !", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                finish();
             }
 
             @Override

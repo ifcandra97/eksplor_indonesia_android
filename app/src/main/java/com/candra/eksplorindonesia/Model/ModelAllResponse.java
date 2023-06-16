@@ -10,6 +10,7 @@ public class ModelAllResponse
     private List<ModelWisata> dataWisata;
     private List<ModelScanWisata> dataScanWisata;
     private List<ModelScanKuliner> dataScanKuliner;
+    private List<ModelScanUser> dataScanUser;
 
     public String getKode() {
         return kode;
@@ -37,5 +38,8 @@ public class ModelAllResponse
 
     public List<ModelScanKuliner> getDataScanKuliner() {
         return dataScanKuliner;
+    }
+    public List<ModelScanUser> getDataScanUser() {
+        return dataScanUser;
     }
 }

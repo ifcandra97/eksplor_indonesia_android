@@ -166,6 +166,12 @@ public interface APIRequestData
             @Field("nama_kuliner") String nama_kuliner
     );
 
+    @FormUrlEncoded
+    @POST("user/scan_user.php")
+    Call<ModelAllResponse> ardScanUser(
+            @Field("fullname") String fullname
+    );
+
 
 
 

@@ -30,6 +30,7 @@ import com.candra.eksplorindonesia.Model.ModelAllResponse;
 import com.candra.eksplorindonesia.Model.ModelScanWisata;
 import com.candra.eksplorindonesia.Model.ModelUser;
 import com.candra.eksplorindonesia.Model.ModelWisata;
+import com.candra.eksplorindonesia.Utility.ControllerLogin;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -55,6 +56,8 @@ public class WisataFragment extends Fragment {
     private LottieAnimationView pbWisata;
     private List<ModelWisata> listWisata = new ArrayList<>();
     private List<ModelWisata> filteredList = new ArrayList<>();
+
+    private ControllerLogin cLogin = new ControllerLogin(getActivity());
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -116,6 +119,11 @@ public class WisataFragment extends Fragment {
         });
         rvWisata = view.findViewById(R.id.rv_wisata); // Initialize rvWisata here
         ivAddWisata = view.findViewById(R.id.iv_add_wisata);
+
+        if(cLogin.getPreferences(getActivity(), cLogin.keySP_role).equals("user"))
+        {
+            ivAddWisata.setVisibility(View.GONE);
+        }
         ivAddWisata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

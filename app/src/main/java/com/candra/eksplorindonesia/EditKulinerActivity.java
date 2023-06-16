@@ -140,7 +140,7 @@ public class EditKulinerActivity extends AppCompatActivity
             {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos);
                 byte [] imageBytes = baos.toByteArray();
 
                 RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpeg"), imageBytes);

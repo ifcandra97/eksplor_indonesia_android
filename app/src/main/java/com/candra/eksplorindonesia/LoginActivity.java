@@ -110,7 +110,16 @@ public class LoginActivity extends AppCompatActivity
                     cLogin.setPreferences(LoginActivity.this,cLogin.keySP_password, listUser.get(0).getPassword());
                     cLogin.setPreferences(LoginActivity.this,cLogin.keySP_foto, listUser.get(0).getFoto());
 
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    String role = cLogin.getPreferences(LoginActivity.this, cLogin.keySP_role);
+                    if(role.equals("admin"))
+                    {
+                        startActivity(new Intent(LoginActivity.this, MainActivityAdmin.class));
+                    }
+                    else
+                    {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    }
+                    Toast.makeText(LoginActivity.this, "Login Berhasil !", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

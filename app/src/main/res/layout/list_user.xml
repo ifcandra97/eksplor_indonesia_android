@@ -24,7 +24,7 @@
             >
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_foto_kuliner"
+                android:id="@+id/iv_foto_usr"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
@@ -40,7 +40,7 @@
             android:padding="5dp"
             >
             <TextView
-                android:id="@+id/tv_id_kuliner"
+                android:id="@+id/tv_id_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Id Kuliner"
@@ -51,7 +51,7 @@
                 android:visibility="gone"
                 />
             <TextView
-                android:id="@+id/tv_nama"
+                android:id="@+id/tv_nama_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nama User"
@@ -78,7 +78,7 @@
                 />
 
             <TextView
-                android:id="@+id/tv_email"
+                android:id="@+id/tv_email_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="example@example.com"
